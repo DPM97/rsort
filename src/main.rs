@@ -8,7 +8,7 @@ use plotlib::{
 };
 use rand::Rng;
 use rayon::prelude::{IntoParallelIterator, ParallelIterator};
-use rsort::sorts::selection::SelectionSort;
+use rsort::sorts::{bubble::BubbleSort, selection::SelectionSort};
 
 struct Runner<T> {
     data_set: Vec<T>,
@@ -22,10 +22,16 @@ where
         Runner { data_set }
     }
     pub fn run(&self) -> Vec<(String, f64)> {
-        vec![(
-            "selection".to_string(),
-            self.data_set.clone().time_selection_sort(),
-        )]
+        vec![
+            (
+                "selection sort".to_string(),
+                self.data_set.clone().time_selection_sort(),
+            ),
+            (
+                "bubble sort".to_string(),
+                self.data_set.clone().time_bubble_sort(),
+            ),
+        ]
     }
 }
 
