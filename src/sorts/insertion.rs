@@ -1,11 +1,11 @@
 use std::{fmt::Debug, time::Instant};
 
-pub trait SelectionSort {
+pub trait InsertionSort {
     fn sort(&mut self);
     fn time_sort(&mut self) -> f64;
 }
 
-impl<T> SelectionSort for Vec<T>
+impl<T> InsertionSort for Vec<T>
 where
     T: PartialOrd + Clone + Debug,
 {
@@ -14,18 +14,14 @@ where
         if len == 1 {
             return;
         }
-        let mut start = 0 as usize;
-        while start < len {
-            let mut min_index = start;
-            for i in start + 1..len {
-                if self[i] < self[min_index] {
-                    min_index = i;
-                }
+        let mut partition = 1;
+        while partition < len {
+            let mut cur = partition;
+            while cur >= 1 && self[cur - 1] > self[cur] {
+                self.swap(cur - 1, cur);
+                cur -= 1;
             }
-            if start != min_index {
-                self.swap(start, min_index);
-            }
-            start += 1;
+            partition += 1;
         }
     }
 

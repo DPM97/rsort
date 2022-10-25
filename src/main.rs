@@ -1,17 +1,26 @@
 use std::{collections::HashMap, fmt::Debug};
 
-use plotlib::{
-    page::Page,
-    repr::Plot,
-    style::{LineJoin, LineStyle},
-    view::ContinuousView,
-};
+use lazy_static::lazy_static;
+use plotlib::{page::Page, repr::Plot, style::PointStyle, view::ContinuousView};
 use rand::Rng;
 use rayon::prelude::{IntoParallelIterator, ParallelIterator};
-use rsort::sorts::{bubble::BubbleSort, selection::SelectionSort};
+use rsort::sorts::{
+    bubble::BubbleSort, insertion::InsertionSort, quick::QuickSort, selection::SelectionSort,
+};
+
+const DS_COUNT: i32 = 5;
 
 struct Runner<T> {
     data_set: Vec<T>,
+}
+
+lazy_static! {
+    static ref PLOT_COLORS: HashMap<&'static str, &'static str> = HashMap::from([
+        ("selection", "red"),
+        ("bubble", "blue"),
+        ("insertion", "orange"),
+        ("quick", "green"),
+    ]);
 }
 
 impl<T> Runner<T>
@@ -24,70 +33,77 @@ where
     pub fn run(&self) -> Vec<(String, f64)> {
         vec![
             (
-                "selection sort".to_string(),
-                self.data_set.clone().time_selection_sort(),
+                "selection".to_string(),
+                SelectionSort::time_sort(&mut self.data_set.clone()),
             ),
             (
-                "bubble sort".to_string(),
-                self.data_set.clone().time_bubble_sort(),
+                "bubble".to_string(),
+                BubbleSort::time_sort(&mut self.data_set.clone()),
+            ),
+            (
+                "insertion".to_string(),
+                InsertionSort::time_sort(&mut self.data_set.clone()),
+            ),
+            (
+                "quick".to_string(),
+                QuickSort::time_sort(&mut self.data_set.clone()),
             ),
         ]
     }
 }
 
-fn plot(data: HashMap<String, Vec<f64>>) {
+fn plot(data: HashMap<String, Vec<(f64, f64)>>) {
     let plots: Vec<Plot> = data
         .into_par_iter()
         .map(|(k, v)| {
             Plot::new(
                 v.into_iter()
-                    .enumerate()
-                    .map(|(i, v)| ((i + 1) as f64, v))
+                    .map(|(i, v)| (i, v))
                     .collect::<Vec<(f64, f64)>>(),
             )
-            .line_style(
-                LineStyle::new()
-                    .colour("burlywood")
-                    .linejoin(LineJoin::Round),
+            .point_style(
+                PointStyle::new().colour(PLOT_COLORS.get(&(k.as_ref())).unwrap().to_string()),
             )
             .legend(k)
         })
         .collect();
 
     let mut view = ContinuousView::new();
-    let sample_size = plots[0].data.len();
+
     for p in plots {
         view = view.add(p)
     }
 
-    Page::single(&(view.x_label("Sample #").y_label("Time (ms)")))
-        .save(format!("line_{}.svg", sample_size))
+    Page::single(&(view.x_label("Samples").y_label("Time (ms)")))
+        .save("output.svg")
         .unwrap();
 }
 
-#[test]
-fn nums_upto_1000() {
-    let res: Vec<Vec<(String, f64)>> = (1..=1000)
-        .collect::<Vec<usize>>()
+fn main() {
+    let res: Vec<(i32, Vec<(String, f64)>)> = [1, 2, 3]
+        .map(|x| vec![(10 * i32::pow(10, x)) as usize; DS_COUNT as usize])
+        .concat()
         .into_par_iter()
         .map(|index| {
-            let mut data_set = vec![0; index];
-            let mut thread_rng = rand::thread_rng();
-            for i in 0..index {
-                data_set[i] = thread_rng.gen_range(1..2147483647)
-            }
-            Runner::<i32>::new(data_set).run()
+            (index as i32, {
+                let mut data_set = vec![0; index];
+                let mut thread_rng = rand::thread_rng();
+                for i in 0..index {
+                    data_set[i] = thread_rng.gen_range(1..2147483647)
+                }
+                let res = Runner::<i32>::new(data_set).run();
+                res
+            })
         })
         .collect();
 
-    let mut map: HashMap<String, Vec<f64>> = HashMap::new();
-    for v in res {
-        for x in v {
-            (*map.entry(x.0).or_default()).push(x.1)
+    let mut map: HashMap<String, Vec<(f64, f64)>> = HashMap::new();
+
+    for (k, v) in res {
+        for (t, x) in v {
+            (*map.entry(t).or_default()).push((k as f64, x))
         }
     }
 
     plot(map)
 }
-
-fn main() {}
