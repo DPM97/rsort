@@ -8,7 +8,7 @@ use plotlib::{
 };
 use rand::Rng;
 use rayon::prelude::{IntoParallelIterator, ParallelIterator};
-use rsort::sorts::selection;
+use rsort::sorts::selection::SelectionSort;
 
 struct Runner<T> {
     data_set: Vec<T>,
@@ -24,7 +24,7 @@ where
     pub fn run(&self) -> Vec<(String, f64)> {
         vec![(
             "selection".to_string(),
-            selection::run::<T>(self.data_set.clone()),
+            self.data_set.clone().time_selection_sort(),
         )]
     }
 }
