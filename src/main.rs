@@ -1,7 +1,12 @@
 use std::{collections::HashMap, fmt::Debug};
 
 use lazy_static::lazy_static;
-use plotlib::{page::Page, repr::Plot, style::PointStyle, view::ContinuousView};
+use plotlib::{
+    page::Page,
+    repr::Plot,
+    style::{LineJoin, LineStyle, PointStyle},
+    view::ContinuousView,
+};
 use rand::Rng;
 use rayon::prelude::{IntoParallelIterator, ParallelIterator};
 use rsort::sorts::{
@@ -60,6 +65,11 @@ fn plot(data: HashMap<String, Vec<(f64, f64)>>) {
                 v.into_iter()
                     .map(|(i, v)| (i, v))
                     .collect::<Vec<(f64, f64)>>(),
+            )
+            .line_style(
+                LineStyle::new()
+                    .colour(PLOT_COLORS.get(&(k.as_ref())).unwrap().to_string())
+                    .linejoin(LineJoin::Round),
             )
             .point_style(
                 PointStyle::new().colour(PLOT_COLORS.get(&(k.as_ref())).unwrap().to_string()),

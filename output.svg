@@ -2,99 +2,115 @@
 <g transform="translate(72, 364)">
 <g>
 <g>
-<circle cx="0" cy="-0.06160108114215287" fill="blue" r="5"/>
-<circle cx="0" cy="-0.05616104874481709" fill="blue" r="5"/>
-<circle cx="0" cy="-0.0612216145965798" fill="blue" r="5"/>
-<circle cx="0" cy="-0.056668016049702716" fill="blue" r="5"/>
-<circle cx="0" cy="-0.05388424947137856" fill="blue" r="5"/>
-<circle cx="43.63636363636363" cy="-4.841741155726346" fill="blue" r="5"/>
-<circle cx="43.63636363636363" cy="-7.213910997130672" fill="blue" r="5"/>
-<circle cx="43.63636363636363" cy="-5.040706090633593" fill="blue" r="5"/>
-<circle cx="43.63636363636363" cy="-4.8753861775230405" fill="blue" r="5"/>
-<circle cx="43.63636363636363" cy="-7.882910516976026" fill="blue" r="5"/>
-<circle cx="480" cy="-255.51215309469745" fill="blue" r="5"/>
-<circle cx="480" cy="-246.20093050018434" fill="blue" r="5"/>
-<circle cx="480" cy="-254.82342131448232" fill="blue" r="5"/>
-<circle cx="480" cy="-256.2211241025873" fill="blue" r="5"/>
-<circle cx="480" cy="-257.44300637933264" fill="blue" r="5"/>
+<path d="M0,-0.007732787 L0,-0.007732787 L0,-0.006045879 L0,-0.00731106 L0,-0.005624152 L0,-0.006889333 L43.636364,-1.4417431 L43.636364,-1.4802619 L43.636364,-1.4442735 L43.636364,-1.3790474 L43.636364,-1.4529914 L480,-125.775314 L480,-124.843155 L480,-120.88201 L480,-125.76055 L480,-124.2772" fill="none" stroke="orange" stroke-linejoin="round" stroke-width="2"/>
+</g>
+<g>
+<circle cx="0" cy="-0.007732787153475692" fill="orange" r="5"/>
+<circle cx="0" cy="-0.0060458789611816935" fill="orange" r="5"/>
+<circle cx="0" cy="-0.007311060105402195" fill="orange" r="5"/>
+<circle cx="0" cy="-0.005624151913108194" fill="orange" r="5"/>
+<circle cx="0" cy="-0.006889333057328691" fill="orange" r="5"/>
+<circle cx="43.63636363636363" cy="-1.4417430770751434" fill="orange" r="5"/>
+<circle cx="43.63636363636363" cy="-1.4802619387379845" fill="orange" r="5"/>
+<circle cx="43.63636363636363" cy="-1.4442734393635839" fill="orange" r="5"/>
+<circle cx="43.63636363636363" cy="-1.3790474472003442" fill="orange" r="5"/>
+<circle cx="43.63636363636363" cy="-1.4529913809013595" fill="orange" r="5"/>
+<circle cx="480" cy="-125.77531139010438" fill="orange" r="5"/>
+<circle cx="480" cy="-124.84315628739013" fill="orange" r="5"/>
+<circle cx="480" cy="-120.88201245130752" fill="orange" r="5"/>
+<circle cx="480" cy="-125.76055094342179" fill="orange" r="5"/>
+<circle cx="480" cy="-124.27719858887552" fill="orange" r="5"/>
 </g>
 </g>
 <g transform="translate(380, -340)">
 <text font-size="12" text-anchor="start" x="0" y="0">
-bubble
+insertion
 </text>
+<line stroke="orange" stroke-width="2" x1="-10" x2="-3" y1="-4" y2="-4"/>
 </g>
 <g>
 <g>
-<circle cx="0" cy="-0.009359162880014654" fill="orange" r="5"/>
-<circle cx="0" cy="-0.009234697853066678" fill="orange" r="5"/>
-<circle cx="0" cy="-0.012394895244599363" fill="orange" r="5"/>
-<circle cx="0" cy="-0.010118095971160826" fill="orange" r="5"/>
-<circle cx="0" cy="-0.007716831670774323" fill="orange" r="5"/>
-<circle cx="43.63636363636363" cy="-1.9873937999255764" fill="orange" r="5"/>
-<circle cx="43.63636363636363" cy="-1.9749958689486127" fill="orange" r="5"/>
-<circle cx="43.63636363636363" cy="-1.9588063082482827" fill="orange" r="5"/>
-<circle cx="43.63636363636363" cy="-1.9772726682220512" fill="orange" r="5"/>
-<circle cx="43.63636363636363" cy="-1.9895430984397027" fill="orange" r="5"/>
-<circle cx="480" cy="-113.0926665429338" fill="orange" r="5"/>
-<circle cx="480" cy="-110.26462987953688" fill="orange" r="5"/>
-<circle cx="480" cy="-114.16706383421052" fill="orange" r="5"/>
-<circle cx="480" cy="-109.26384909810135" fill="orange" r="5"/>
-<circle cx="480" cy="-113.21207403976238" fill="orange" r="5"/>
+<path d="M0,-0.0025303622 L0,-0.0025303622 L0,-0.00028002675 L0,-0.00028002675 L0,-0 L0,-0 L43.636364,-0.14366722 L43.636364,-0.13523269 L43.636364,-0.14408895 L43.636364,-0.14282377 L43.636364,-0.14282377 L480,-1.5543442 L480,-1.6587942 L480,-1.5329778 L480,-1.6659635 L480,-1.529604" fill="none" stroke="green" stroke-linejoin="round" stroke-width="2"/>
+</g>
+<g>
+<circle cx="0" cy="-0.0025303622884409985" fill="green" r="5"/>
+<circle cx="0" cy="-0.00028002675992080446" fill="green" r="5"/>
+<circle cx="0" cy="-0.00028002675992080446" fill="green" r="5"/>
+<circle cx="0" cy="-0" fill="green" r="5"/>
+<circle cx="0" cy="-0" fill="green" r="5"/>
+<circle cx="43.63636363636363" cy="-0.14366722310491073" fill="green" r="5"/>
+<circle cx="43.63636363636363" cy="-0.13523268214344075" fill="green" r="5"/>
+<circle cx="43.63636363636363" cy="-0.14408895015298423" fill="green" r="5"/>
+<circle cx="43.63636363636363" cy="-0.14282376900876376" fill="green" r="5"/>
+<circle cx="43.63636363636363" cy="-0.14282376900876376" fill="green" r="5"/>
+<circle cx="480" cy="-1.5543441989107678" fill="green" r="5"/>
+<circle cx="480" cy="-1.6587941803612274" fill="green" r="5"/>
+<circle cx="480" cy="-1.532977819747172" fill="green" r="5"/>
+<circle cx="480" cy="-1.6659635401784771" fill="green" r="5"/>
+<circle cx="480" cy="-1.5296040033625835" fill="green" r="5"/>
 </g>
 </g>
 <g transform="translate(380, -322)">
 <text font-size="12" text-anchor="start" x="0" y="0">
-insertion
+quick
 </text>
+<line stroke="green" stroke-width="2" x1="-10" x2="-3" y1="-4" y2="-4"/>
 </g>
 <g>
 <g>
-<circle cx="0" cy="-0.0374396872524232" fill="red" r="5"/>
-<circle cx="0" cy="-0.037567188011735746" fill="red" r="5"/>
-<circle cx="0" cy="-0.03592182107013083" fill="red" r="5"/>
-<circle cx="0" cy="-0.03579735604318287" fill="red" r="5"/>
-<circle cx="0" cy="-0.0374396872524232" fill="red" r="5"/>
-<circle cx="43.63636363636363" cy="-6.004551116389238" fill="red" r="5"/>
-<circle cx="43.63636363636363" cy="-5.824304507242021" fill="red" r="5"/>
-<circle cx="43.63636363636363" cy="-5.864024029500248" fill="red" r="5"/>
-<circle cx="43.63636363636363" cy="-5.812037112756734" fill="red" r="5"/>
-<circle cx="43.63636363636363" cy="-6.0381991739182945" fill="red" r="5"/>
-<circle cx="480" cy="-338.08129268055546" fill="red" r="5"/>
-<circle cx="480" cy="-340" fill="red" r="5"/>
-<circle cx="480" cy="-338.5099623762938" fill="red" r="5"/>
-<circle cx="480" cy="-337.15020624274615" fill="red" r="5"/>
-<circle cx="480" cy="-337.6170775945603" fill="red" r="5"/>
+<path d="M0,-0.040485796 L0,-0.040485796 L0,-0.038097136 L0,-0.040344097 L0,-0.0406275 L0,-0.039078914 L43.636364,-3.3721294 L43.636364,-3.3840795 L43.636364,-3.3544168 L43.636364,-3.3499196 L43.636364,-3.3870316 L480,-283.3085 L480,-284.16052 L480,-289.39023 L480,-284.91302 L480,-286.11987" fill="none" stroke="blue" stroke-linejoin="round" stroke-width="2"/>
+</g>
+<g>
+<circle cx="0" cy="-0.04048579661505598" fill="blue" r="5"/>
+<circle cx="0" cy="-0.03809713461476768" fill="blue" r="5"/>
+<circle cx="0" cy="-0.040344096326903285" fill="blue" r="5"/>
+<circle cx="0" cy="-0.04062749690320868" fill="blue" r="5"/>
+<circle cx="0" cy="-0.039078915182682784" fill="blue" r="5"/>
+<circle cx="43.63636363636363" cy="-3.3721294763957044" fill="blue" r="5"/>
+<circle cx="43.63636363636363" cy="-3.3840795340299152" fill="blue" r="5"/>
+<circle cx="43.63636363636363" cy="-3.354416940376617" fill="blue" r="5"/>
+<circle cx="43.63636363636363" cy="-3.3499196431359617" fill="blue" r="5"/>
+<circle cx="43.63636363636363" cy="-3.3870316233664295" fill="blue" r="5"/>
+<circle cx="480" cy="-283.30849810862367" fill="blue" r="5"/>
+<circle cx="480" cy="-284.1605284460203" fill="blue" r="5"/>
+<circle cx="480" cy="-289.39022386889167" fill="blue" r="5"/>
+<circle cx="480" cy="-284.9130312000716" fill="blue" r="5"/>
+<circle cx="480" cy="-286.1198723113698" fill="blue" r="5"/>
 </g>
 </g>
 <g transform="translate(380, -304)">
 <text font-size="12" text-anchor="start" x="0" y="0">
-selection
+bubble
 </text>
+<line stroke="blue" stroke-width="2" x1="-10" x2="-3" y1="-4" y2="-4"/>
 </g>
 <g>
 <g>
-<circle cx="0" cy="-0.1540634175026739" fill="green" r="5"/>
-<circle cx="0" cy="-0.0010108988774067073" fill="green" r="5"/>
-<circle cx="0" cy="-0.0007589330911461775" fill="green" r="5"/>
-<circle cx="0" cy="-0.0008864338504587337" fill="green" r="5"/>
-<circle cx="0" cy="-0" fill="green" r="5"/>
-<circle cx="43.63636363636363" cy="-0.19795403602983958" fill="green" r="5"/>
-<circle cx="43.63636363636363" cy="-0.18378930881668737" fill="green" r="5"/>
-<circle cx="43.63636363636363" cy="-0.19188257130067013" fill="green" r="5"/>
-<circle cx="43.63636363636363" cy="-0.19251703936486833" fill="green" r="5"/>
-<circle cx="43.63636363636363" cy="-0.18353430729806222" fill="green" r="5"/>
-<circle cx="480" cy="-1.4413414408459024" fill="green" r="5"/>
-<circle cx="480" cy="-1.4255283109587806" fill="green" r="5"/>
-<circle cx="480" cy="-1.4710642964275509" fill="green" r="5"/>
-<circle cx="480" cy="-1.4094662510177627" fill="green" r="5"/>
-<circle cx="480" cy="-1.406051052107605" fill="green" r="5"/>
+<path d="M0,-0.08561059 L0,-0.08561059 L0,-0.024180142 L0,-0.023475014 L0,-0.024038441 L0,-0.02277326 L43.636364,-3.6790051 L43.636364,-3.685051 L43.636364,-3.680412 L43.636364,-3.680132 L43.636364,-3.6843493 L480,-340 L480,-336.06628 L480,-329.16962 L480,-338.68027 L480,-336.559" fill="none" stroke="red" stroke-linejoin="round" stroke-width="2"/>
+</g>
+<g>
+<circle cx="0" cy="-0.08561059075892047" fill="red" r="5"/>
+<circle cx="0" cy="-0.024180142028342188" fill="red" r="5"/>
+<circle cx="0" cy="-0.0234750144039633" fill="red" r="5"/>
+<circle cx="0" cy="-0.024038441740189483" fill="red" r="5"/>
+<circle cx="0" cy="-0.02277326059596899" fill="red" r="5"/>
+<circle cx="43.63636363636363" cy="-3.6790050671050594" fill="red" r="5"/>
+<circle cx="43.63636363636363" cy="-3.6850509460662404" fill="red" r="5"/>
+<circle cx="43.63636363636363" cy="-3.680411948537433" fill="red" r="5"/>
+<circle cx="43.63636363636363" cy="-3.6801319217775115" fill="red" r="5"/>
+<circle cx="43.63636363636363" cy="-3.6843491922582468" fill="red" r="5"/>
+<circle cx="480" cy="-340" fill="red" r="5"/>
+<circle cx="480" cy="-336.0662717958586" fill="red" r="5"/>
+<circle cx="480" cy="-329.1696276784245" fill="red" r="5"/>
+<circle cx="480" cy="-338.68027774010625" fill="red" r="5"/>
+<circle cx="480" cy="-336.5589906882966" fill="red" r="5"/>
 </g>
 </g>
 <g transform="translate(380, -286)">
 <text font-size="12" text-anchor="start" x="0" y="0">
-quick
+selection
 </text>
+<line stroke="red" stroke-width="2" x1="-10" x2="-3" y1="-4" y2="-4"/>
 </g>
 <g>
 <g>
@@ -128,32 +144,32 @@ Samples
 </g>
 <g>
 <g>
-<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="0.000009107197093752697" y2="0.000009107197093752697"/>
-<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-60.714638184497055" y2="-60.714638184497055"/>
-<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-121.4292854761912" y2="-121.4292854761912"/>
-<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-182.14393276788533" y2="-182.14393276788533"/>
-<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-242.85858005957945" y2="-242.85858005957945"/>
-<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-303.5732273512736" y2="-303.5732273512736"/>
+<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-0.000006747632769176892" y2="-0.000006747632769176892"/>
+<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-67.47633443939273" y2="-67.47633443939273"/>
+<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-134.95266213115272" y2="-134.95266213115272"/>
+<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-202.42898982291268" y2="-202.42898982291268"/>
+<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-269.9053175146726" y2="-269.9053175146726"/>
+<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-337.3816452064326" y2="-337.3816452064326"/>
 </g>
 <line stroke="black" stroke-width="1" x1="0" x2="0" y1="0" y2="-340"/>
 <g>
-<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="0.000009107197093752697">
-0.00608
+<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-0.000006747632769176892">
+0.00321
 </text>
-<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-60.714638184497055">
-20.00608
+<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-67.47633443939273">
+20.00321
 </text>
-<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-121.4292854761912">
-40.00608
+<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-134.95266213115272">
+40.00321
 </text>
-<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-182.14393276788533">
-60.00608
+<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-202.42898982291268">
+60.00321
 </text>
-<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-242.85858005957945">
-80.00608
+<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-269.9053175146726">
+80.00321
 </text>
-<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-303.5732273512736">
-100.00608
+<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-337.3816452064326">
+100.00321
 </text>
 </g>
 <text font-size="12" text-anchor="middle" transform="rotate(-90 -108 -170)" x="-108" y="-182">
