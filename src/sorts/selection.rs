@@ -1,10 +1,8 @@
 use std::{
     fmt::Debug,
-    ops::Index,
     time::{Duration, Instant},
 };
 
-use web_sys::console;
 use yew::{
     platform::{spawn_local, time::sleep},
     Callback,

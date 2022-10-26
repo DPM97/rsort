@@ -9,24 +9,19 @@ pub struct BarProps {
 
 #[function_component(Bar)]
 pub fn bar(props: &BarProps) -> Html {
-    let color = "#0385ff";
-
     let (width, height, _value) = (props.width, props.height, props.value);
     html! {
-        <div style={format!("height: 100vh; width: {}vw; display:inline; float: left;", width)}>
+        <div style={format!("height: 100%; width: {}%; display:inline; float: left;", width)}>
         <div
             style={format!(
-                "height: calc(100vh - {}vh);width: {}vw;",
+                "height: calc(100% - {}%);",
                 100.0 - height,
-                width,
                 )}>
         </div>
         <div
             style={format!(
-                "outline: 0.1px solid black; outline-offset: -0.1px; height: calc(100vh - {}vh);width: {}vw; background-color: {};",
+                "outline: 0.1px solid black; outline-offset: -0.1px; height: calc(100% - {}%); background-color: cyan;",
                  height,
-                 width,
-                 color
                 )}>
         </div>
         </div>

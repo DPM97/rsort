@@ -14,3 +14,4 @@ yew = { git="https://github.com/yewstack/yew", features = ["csr"] }
 getrandom = { version = "0.2", features = ["js"] }
 web-sys = { version = "0.3", features = ["console"] }
 async-trait = "0.1.58"
+async-recursion = "1.0.0"

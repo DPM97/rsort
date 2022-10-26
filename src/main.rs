@@ -12,18 +12,17 @@ use rayon::prelude::{IntoParallelIterator, ParallelIterator};
 use rsort::{
     components::bar::Bar,
     sorts::{
-        bubble::BubbleSort,
-        insertion::InsertionSort,
-        quick::QuickSort,
+        bubble::{BubbleSort, RenderBubbleSort},
+        insertion::{InsertionSort, RenderInsertionSort},
+        quick::{QuickSort, RenderQuickSort},
         selection::{RenderSelectionSort, SelectionSort},
     },
     Msg,
 };
 
-use web_sys::console;
 use yew::{
-    function_component, html, platform::spawn_local, use_force_update, use_mut_ref, use_state,
-    Component, Context, Html, Properties, UseStateHandle,
+    function_component, html, use_force_update, use_mut_ref, use_state, Component, Context, Html,
+    Properties, UseStateHandle,
 };
 
 #[derive(Properties, PartialEq, Debug)]
@@ -161,79 +160,77 @@ fn gen_random_data(size: usize) -> Vec<i32> {
     data_set
 }
 
-#[function_component(MyApp)]
-pub fn app(props: &AppProps) -> Html {
-    let render_count: UseStateHandle<u32> = use_state(|| 0);
+pub struct RootComponent {}
 
-    let count = *render_count;
+impl Component for RootComponent {
+    type Message = ();
+    type Properties = ();
 
-    let total_width_px = 1500;
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self {}
+    }
 
-    // single graph (selection test)
-    let data = gen_random_data(250);
-    let (min, max) = (
-        data.iter().min().unwrap().clone(),
-        data.iter().max().unwrap().clone(),
-    );
-
-    let state = use_force_update();
-    let graphs = use_mut_ref(|| data);
-    let bar_width_px = 100 as f32 / graphs.borrow().len() as f32;
-
-    let items = (*graphs).clone().into_inner().into_iter().map(|i| {
-        let height_from_top = f32::max(
-            0.0,
-            100.0 - (((i - min) as f32 / (max - min) as f32) * 100.0) as f32,
-        );
-
+    fn view(&self, _ctx: &Context<Self>) -> Html {
+        let data = gen_random_data(250);
         html! {
-        <Bar
-            width={bar_width_px}
-            height={height_from_top}
-            value={i as i32}
-            />
+            <div style="margin: -8px; width: 100vw; height: 100vh; display: grid; grid-template-columns: 50% 50%; grid-auto-rows: 50vh 50vh; grid-gap: 5px;">
+                <GraphComponent<i32> message_type={"insertion"} data={data.clone()}  />
+                <GraphComponent<i32> message_type={"bubble"} data={data.clone()}  />
+                <GraphComponent<i32> message_type={"selection"} data={data.clone()}  />
+                <GraphComponent<i32> message_type={"quick"} {data}  />
+            </div>
         }
-    });
-
-    println!("{}", items.len());
-
-    html! {
-        <div style="margin: -8px;">
-            {for items}
-        </div>
     }
 }
 
-pub struct AsyncComponent<T> {
+pub struct GraphComponent<T> {
     data: Vec<T>,
 }
 
-impl Component for AsyncComponent<i32> {
+#[derive(Clone, Eq, PartialEq, Properties)]
+pub struct GraphComponentProperties {
+    message_type: String,
+    data: Vec<i32>,
+}
+
+impl Component for GraphComponent<i32> {
     type Message = Msg<i32>;
-    type Properties = ();
+    type Properties = GraphComponentProperties;
 
     fn create(ctx: &Context<Self>) -> Self {
-        let data = gen_random_data(500);
-        let default = data.clone();
-        RenderSelectionSort::sort(data, ctx.link().callback(Msg::Data));
-        Self { data: default }
+        match ctx.props().message_type.as_ref() {
+            "selection" => {
+                RenderSelectionSort::sort(ctx.props().data.clone(), ctx.link().callback(Msg::Data))
+            }
+            "quick" => {
+                RenderQuickSort::sort(ctx.props().data.clone(), ctx.link().callback(Msg::Data))
+            }
+            "insertion" => {
+                RenderInsertionSort::sort(ctx.props().data.clone(), ctx.link().callback(Msg::Data))
+            }
+            "bubble" => {
+                RenderBubbleSort::sort(ctx.props().data.clone(), ctx.link().callback(Msg::Data))
+            }
+            _ => panic!("invalid prop"),
+        };
+
+        Self {
+            data: ctx.props().data.clone(),
+        }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
-        console::log_1(&format!("hi").into());
         match msg {
             Msg::Data(data) => {
-                console::log_1(&format!("{:?}", data).into());
                 self.data = data;
             }
         }
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let d = self.data.clone();
 
-        // single graph (selection test)
         let (min, max) = (
             d.iter().min().unwrap().clone(),
             d.iter().max().unwrap().clone(),
@@ -247,8 +244,6 @@ impl Component for AsyncComponent<i32> {
                 100.0 - (((i - min) as f32 / (max - min) as f32) * 100.0) as f32,
             );
 
-            console::log_1(&format!("{} {} {}", bar_width_px, height_from_top, i as i32).into());
-
             html! {
             <Bar
                 width={bar_width_px}
@@ -259,13 +254,16 @@ impl Component for AsyncComponent<i32> {
         });
 
         html! {
-            <div style="margin: -8px;">
-                {for d}
+            <div style="outline: 5px solid black; width: 100%; height: 100%; background-color: beige;">
+                <p style="margin: 20px;">{ctx.props().message_type.clone()}</p>
+                <div style="width: 100%; height: 88%;">
+                    {for d}
+                </div>
             </div>
         }
     }
 }
 
 fn main() {
-    yew::Renderer::<AsyncComponent<i32>>::new().render();
+    yew::Renderer::<RootComponent>::new().render();
 }

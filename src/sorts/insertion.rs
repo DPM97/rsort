@@ -1,8 +1,20 @@
-use std::{fmt::Debug, time::Instant};
+use std::{
+    fmt::Debug,
+    time::{Duration, Instant},
+};
+
+use yew::{
+    platform::{spawn_local, time::sleep},
+    Callback,
+};
 
 pub trait InsertionSort {
     fn sort(&mut self);
     fn time_sort(&mut self) -> f64;
+}
+
+pub trait RenderInsertionSort<T> {
+    fn sort(self, cb: T);
 }
 
 impl<T> InsertionSort for Vec<T>
@@ -29,5 +41,30 @@ where
         let start_time = Instant::now();
         self.sort();
         start_time.elapsed().as_secs_f64() * 1000.0
+    }
+}
+
+impl<T> RenderInsertionSort<Callback<Vec<T>>> for Vec<T>
+where
+    T: PartialOrd + Clone + Debug + Send + Sync + 'static,
+{
+    fn sort(mut self, cb: Callback<Vec<T>>) {
+        spawn_local(async move {
+            let len = self.len();
+            if len == 1 {
+                return;
+            }
+            let mut partition = 1;
+            while partition < len {
+                let mut cur = partition;
+                while cur >= 1 && self[cur - 1] > self[cur] {
+                    self.swap(cur - 1, cur);
+                    cb.emit(self.clone());
+                    sleep(Duration::from_micros(1)).await;
+                    cur -= 1;
+                }
+                partition += 1;
+            }
+        });
     }
 }
