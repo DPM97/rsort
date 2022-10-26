@@ -48,11 +48,11 @@ where
     }
 }
 
-impl<T> RenderSelectionSort<Callback<Vec<T>>> for Vec<T>
+impl<T> RenderSelectionSort<Callback<[(usize, T); 2]>> for Vec<T>
 where
     T: PartialOrd + Clone + Debug + Send + Sync + 'static,
 {
-    fn sort(mut self, cb: Callback<Vec<T>>) {
+    fn sort(mut self, cb: Callback<[(usize, T); 2]>) {
         spawn_local(async move {
             let len = self.len();
             if len == 1 {
@@ -68,8 +68,11 @@ where
                 }
                 if start != min_index {
                     self.swap(start, min_index);
-                    cb.emit(self.clone());
-                    sleep(Duration::from_micros(1)).await;
+                    cb.emit([
+                        (start, self[start].clone()),
+                        (min_index, self[min_index].clone()),
+                    ]);
+                    sleep(Duration::from_nanos(1)).await;
                 }
                 start += 1;
             }

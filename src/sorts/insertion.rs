@@ -44,11 +44,11 @@ where
     }
 }
 
-impl<T> RenderInsertionSort<Callback<Vec<T>>> for Vec<T>
+impl<T> RenderInsertionSort<Callback<[(usize, T); 2]>> for Vec<T>
 where
     T: PartialOrd + Clone + Debug + Send + Sync + 'static,
 {
-    fn sort(mut self, cb: Callback<Vec<T>>) {
+    fn sort(mut self, cb: Callback<[(usize, T); 2]>) {
         spawn_local(async move {
             let len = self.len();
             if len == 1 {
@@ -59,8 +59,8 @@ where
                 let mut cur = partition;
                 while cur >= 1 && self[cur - 1] > self[cur] {
                     self.swap(cur - 1, cur);
-                    cb.emit(self.clone());
-                    sleep(Duration::from_micros(1)).await;
+                    cb.emit([(cur - 1, self[cur - 1].clone()), (cur, self[cur].clone())]);
+                    sleep(Duration::from_nanos(0)).await;
                     cur -= 1;
                 }
                 partition += 1;

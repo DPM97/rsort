@@ -1,4 +1,4 @@
-use std::{collections::HashMap, fmt::Debug};
+use std::{collections::HashMap, fmt::Debug, rc::Rc, borrow::Borrow};
 
 use lazy_static::lazy_static;
 use plotlib::{
@@ -21,8 +21,8 @@ use rsort::{
 };
 
 use yew::{
-    function_component, html, use_force_update, use_mut_ref, use_state, Component, Context, Html,
-    Properties, UseStateHandle,
+    function_component, html, use_force_update, use_mut_ref, use_state, virtual_dom::VNode,
+    Component, Context, Html, Properties, UseStateHandle,
 };
 
 #[derive(Properties, PartialEq, Debug)]
@@ -40,7 +40,7 @@ impl Default for AppProps {
     fn default() -> AppProps {
         AppProps {
             // single graph (selection test)
-            data: gen_random_data(250),
+            data: gen_random_data(100),
         }
     }
 }
@@ -174,17 +174,21 @@ impl Component for RootComponent {
         let data = gen_random_data(250);
         html! {
             <div style="margin: -8px; width: 100vw; height: 100vh; display: grid; grid-template-columns: 50% 50%; grid-auto-rows: 50vh 50vh; grid-gap: 5px;">
-                <GraphComponent<i32> message_type={"insertion"} data={data.clone()}  />
-                <GraphComponent<i32> message_type={"bubble"} data={data.clone()}  />
-                <GraphComponent<i32> message_type={"selection"} data={data.clone()}  />
-                <GraphComponent<i32> message_type={"quick"} {data}  />
+                <GraphComponent message_type={"insertion"} data={data.clone()}  />
+                <GraphComponent message_type={"bubble"} data={data.clone()}  />
+                <GraphComponent message_type={"selection"} data={data.clone()}  />
+                <GraphComponent message_type={"quick"} {data}  />
             </div>
         }
     }
 }
 
-pub struct GraphComponent<T> {
-    data: Vec<T>,
+pub struct GraphComponent {
+    data: Box<Vec<VNode>>,
+    bar_width: f32,
+    min: i32,
+    max: i32,
+    msg_type: String,
 }
 
 #[derive(Clone, Eq, PartialEq, Properties)]
@@ -193,11 +197,35 @@ pub struct GraphComponentProperties {
     data: Vec<i32>,
 }
 
-impl Component for GraphComponent<i32> {
+impl Component for GraphComponent {
     type Message = Msg<i32>;
     type Properties = GraphComponentProperties;
 
     fn create(ctx: &Context<Self>) -> Self {
+        let d = ctx.props().data.clone();
+        let bar_width_px = 100 as f32 / d.len() as f32;
+        let (min, max) = (
+            d.iter().min().unwrap().clone(),
+            d.iter().max().unwrap().clone(),
+        );
+        let nodes = d
+            .into_iter()
+            .map(|i| {
+                let height_from_top = f32::max(
+                    0.0,
+                    100.0 - (((i - min) as f32 / (max - min) as f32) * 100.0) as f32,
+                );
+
+                html! {
+                <Bar
+                    width={bar_width_px}
+                    height={height_from_top}
+                    value={i as i32}
+                    />
+                }
+            })
+            .collect();
+
         match ctx.props().message_type.as_ref() {
             "selection" => {
                 RenderSelectionSort::sort(ctx.props().data.clone(), ctx.link().callback(Msg::Data))
@@ -215,49 +243,48 @@ impl Component for GraphComponent<i32> {
         };
 
         Self {
-            data: ctx.props().data.clone(),
+            data: Box::new(nodes),
+            bar_width: bar_width_px,
+            msg_type: ctx.props().message_type.clone(),
+            min,
+            max,
         }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::Data(data) => {
-                self.data = data;
+                self.data[data[0].0] = html! {
+                    <Bar
+                        width={self.bar_width}
+                        height={f32::max(
+                            0.0,
+                            100.0 - (((data[0].1 - self.min) as f32 / (self.max - self.min) as f32) * 100.0) as f32,
+                        )}
+                        value={data[0].1 as i32}
+                    />
+                };
+                self.data[data[1].0] = html! {
+                    <Bar
+                        width={self.bar_width}
+                        height={f32::max(
+                            0.0,
+                            100.0 - (((data[1].1 - self.min) as f32 / (self.max - self.min) as f32) * 100.0) as f32,
+                        )}
+                        value={data[1].1 as i32}
+                    />
+                };
             }
         }
         true
     }
 
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let d = self.data.clone();
-
-        let (min, max) = (
-            d.iter().min().unwrap().clone(),
-            d.iter().max().unwrap().clone(),
-        );
-
-        let bar_width_px = 100 as f32 / d.len() as f32;
-
-        let d = d.into_iter().map(|i| {
-            let height_from_top = f32::max(
-                0.0,
-                100.0 - (((i - min) as f32 / (max - min) as f32) * 100.0) as f32,
-            );
-
-            html! {
-            <Bar
-                width={bar_width_px}
-                height={height_from_top}
-                value={i as i32}
-                />
-            }
-        });
-
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <div style="outline: 5px solid black; width: 100%; height: 100%; background-color: beige;">
-                <p style="margin: 20px;">{ctx.props().message_type.clone()}</p>
+                <p style="margin: 20px;">{self.msg_type.clone()}</p>
                 <div style="width: 100%; height: 88%;">
-                    {for d}
+                    {for self.data.clone().into_iter()}
                 </div>
             </div>
         }

@@ -1,6 +1,12 @@
-use std::{fmt::Debug, time::{Instant, Duration}};
+use std::{
+    fmt::Debug,
+    time::{Duration, Instant},
+};
 
-use yew::{platform::{spawn_local, time::sleep}, Callback};
+use yew::{
+    platform::{spawn_local, time::sleep},
+    Callback,
+};
 
 pub trait BubbleSort {
     fn sort(&mut self);
@@ -44,11 +50,11 @@ where
     }
 }
 
-impl<T> RenderBubbleSort<Callback<Vec<T>>> for Vec<T>
+impl<T> RenderBubbleSort<Callback<[(usize, T); 2]>> for Vec<T>
 where
     T: PartialOrd + Clone + Debug + Send + Sync + 'static,
 {
-    fn sort(mut self, cb: Callback<Vec<T>>) {
+    fn sort(mut self, cb: Callback<[(usize, T); 2]>) {
         spawn_local(async move {
             let len = self.len();
             if len == 1 {
@@ -59,8 +65,8 @@ where
                 for i in 1..len {
                     if self[i - 1] > self[i] {
                         self.swap(i - 1, i);
-                        cb.emit(self.clone());
-                        sleep(Duration::from_micros(1)).await;
+                        cb.emit([(i - 1, self[i - 1].clone()), (i, self[i].clone())]);
+                        sleep(Duration::from_nanos(1)).await;
                         swap_ct += 1;
                     }
                 }

@@ -67,11 +67,11 @@ where
     }
 }
 
-impl<T> RenderQuickSort<Callback<Vec<T>>> for Vec<T>
+impl<T> RenderQuickSort<Callback<[(usize, T); 2]>> for Vec<T>
 where
     T: PartialOrd + Clone + Debug + Send + Sync + 'static,
 {
-    fn sort(mut self, cb: Callback<Vec<T>>) {
+    fn sort(mut self, cb: Callback<[(usize, T); 2]>) {
         spawn_local(async move {
             let len = self.len();
             if len == 1 {
@@ -80,7 +80,7 @@ where
 
             #[async_recursion(?Send)]
             async fn quicksort<T: PartialOrd + Clone + Debug>(
-                cb: Callback<Vec<T>>,
+                cb: Callback<[(usize, T); 2]>,
                 vec: &mut Vec<T>,
                 low: usize,
                 high: usize,
@@ -103,13 +103,14 @@ where
                         }
 
                         vec.swap(l, h);
+                        cb.emit([(l, vec[l].clone()), (h, vec[h].clone())]);
                         l += 1;
                         h -= 1;
                     }
 
                     vec.swap(l, pivot);
-                    cb.emit(vec.clone());
-                    sleep(Duration::from_micros(1)).await;
+                    cb.emit([(l, vec[l].clone()), (pivot, vec[pivot].clone())]);
+                    sleep(Duration::from_nanos(1)).await;
                     quicksort(cb.clone(), vec, low, l - 1).await;
                     quicksort(cb, vec, l + 1, high).await;
                 }
