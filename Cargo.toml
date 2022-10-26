@@ -10,3 +10,7 @@ lazy_static = "1.4.0"
 plotlib = "0.5.1"
 rand = "0.8.5"
 rayon = "1.5.3"
+yew = { git="https://github.com/yewstack/yew", features = ["csr"] }
+getrandom = { version = "0.2", features = ["js"] }
+web-sys = { version = "0.3", features = ["console"] }
+async-trait = "0.1.58"

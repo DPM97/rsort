@@ -9,9 +9,42 @@ use plotlib::{
 };
 use rand::Rng;
 use rayon::prelude::{IntoParallelIterator, ParallelIterator};
-use rsort::sorts::{
-    bubble::BubbleSort, insertion::InsertionSort, quick::QuickSort, selection::SelectionSort,
+use rsort::{
+    components::bar::Bar,
+    sorts::{
+        bubble::BubbleSort,
+        insertion::InsertionSort,
+        quick::QuickSort,
+        selection::{RenderSelectionSort, SelectionSort},
+    },
+    Msg,
 };
+
+use web_sys::console;
+use yew::{
+    function_component, html, platform::spawn_local, use_force_update, use_mut_ref, use_state,
+    Component, Context, Html, Properties, UseStateHandle,
+};
+
+#[derive(Properties, PartialEq, Debug)]
+pub struct Graph {
+    name: String,
+    vals: Vec<i32>,
+}
+
+#[derive(Properties, PartialEq, Debug)]
+pub struct AppProps {
+    data: Vec<i32>,
+}
+
+impl Default for AppProps {
+    fn default() -> AppProps {
+        AppProps {
+            // single graph (selection test)
+            data: gen_random_data(250),
+        }
+    }
+}
 
 const DS_COUNT: i32 = 5;
 
@@ -32,10 +65,10 @@ impl<T> Runner<T>
 where
     T: PartialOrd + Clone + Debug,
 {
-    pub fn new(data_set: Vec<T>) -> Self {
+    pub fn _new(data_set: Vec<T>) -> Self {
         Runner { data_set }
     }
-    pub fn run(&self) -> Vec<(String, f64)> {
+    pub fn _run(&self) -> Vec<(String, f64)> {
         vec![
             (
                 "selection".to_string(),
@@ -57,7 +90,7 @@ where
     }
 }
 
-fn plot(data: HashMap<String, Vec<(f64, f64)>>) {
+fn _plot(data: HashMap<String, Vec<(f64, f64)>>) {
     let plots: Vec<Plot> = data
         .into_par_iter()
         .map(|(k, v)| {
@@ -89,7 +122,8 @@ fn plot(data: HashMap<String, Vec<(f64, f64)>>) {
         .unwrap();
 }
 
-fn main() {
+#[test]
+fn parallelize() {
     let res: Vec<(i32, Vec<(String, f64)>)> = [1, 2, 3]
         .map(|x| vec![(10 * i32::pow(10, x)) as usize; DS_COUNT as usize])
         .concat()
@@ -101,7 +135,7 @@ fn main() {
                 for i in 0..index {
                     data_set[i] = thread_rng.gen_range(1..2147483647)
                 }
-                let res = Runner::<i32>::new(data_set).run();
+                let res = Runner::<i32>::_new(data_set)._run();
                 res
             })
         })
@@ -115,5 +149,123 @@ fn main() {
         }
     }
 
-    plot(map)
+    _plot(map)
+}
+
+fn gen_random_data(size: usize) -> Vec<i32> {
+    let mut data_set = vec![0; size];
+    let mut thread_rng = rand::thread_rng();
+    for i in 0..size {
+        data_set[i] = thread_rng.gen_range(1..2147483647)
+    }
+    data_set
+}
+
+#[function_component(MyApp)]
+pub fn app(props: &AppProps) -> Html {
+    let render_count: UseStateHandle<u32> = use_state(|| 0);
+
+    let count = *render_count;
+
+    let total_width_px = 1500;
+
+    // single graph (selection test)
+    let data = gen_random_data(250);
+    let (min, max) = (
+        data.iter().min().unwrap().clone(),
+        data.iter().max().unwrap().clone(),
+    );
+
+    let state = use_force_update();
+    let graphs = use_mut_ref(|| data);
+    let bar_width_px = 100 as f32 / graphs.borrow().len() as f32;
+
+    let items = (*graphs).clone().into_inner().into_iter().map(|i| {
+        let height_from_top = f32::max(
+            0.0,
+            100.0 - (((i - min) as f32 / (max - min) as f32) * 100.0) as f32,
+        );
+
+        html! {
+        <Bar
+            width={bar_width_px}
+            height={height_from_top}
+            value={i as i32}
+            />
+        }
+    });
+
+    println!("{}", items.len());
+
+    html! {
+        <div style="margin: -8px;">
+            {for items}
+        </div>
+    }
+}
+
+pub struct AsyncComponent<T> {
+    data: Vec<T>,
+}
+
+impl Component for AsyncComponent<i32> {
+    type Message = Msg<i32>;
+    type Properties = ();
+
+    fn create(ctx: &Context<Self>) -> Self {
+        let data = gen_random_data(500);
+        let default = data.clone();
+        RenderSelectionSort::sort(data, ctx.link().callback(Msg::Data));
+        Self { data: default }
+    }
+
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
+        console::log_1(&format!("hi").into());
+        match msg {
+            Msg::Data(data) => {
+                console::log_1(&format!("{:?}", data).into());
+                self.data = data;
+            }
+        }
+        true
+    }
+
+    fn view(&self, _ctx: &Context<Self>) -> Html {
+        let d = self.data.clone();
+
+        // single graph (selection test)
+        let (min, max) = (
+            d.iter().min().unwrap().clone(),
+            d.iter().max().unwrap().clone(),
+        );
+
+        let bar_width_px = 100 as f32 / d.len() as f32;
+
+        let d = d.into_iter().map(|i| {
+            let height_from_top = f32::max(
+                0.0,
+                100.0 - (((i - min) as f32 / (max - min) as f32) * 100.0) as f32,
+            );
+
+            console::log_1(&format!("{} {} {}", bar_width_px, height_from_top, i as i32).into());
+
+            html! {
+            <Bar
+                width={bar_width_px}
+                height={height_from_top}
+                value={i as i32}
+                />
+            }
+        });
+
+        html! {
+            <div style="margin: -8px;">
+                {for d}
+            </div>
+        }
+    }
+}
+
+fn main() {
+    yew::Renderer::<AsyncComponent<i32>>::new().render();
 }
